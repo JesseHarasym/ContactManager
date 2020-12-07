@@ -1,6 +1,6 @@
 ﻿namespace AddressBookProject
 {
-    partial class ContactBasic
+    partial class ContactCard
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,12 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ContactBasic));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ContactCard));
             this.lblContactName = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.picBoxContact = new System.Windows.Forms.PictureBox();
-            this.tmrRefreshContact = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.picBoxContact)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,11 +67,7 @@
             this.picBoxContact.TabIndex = 3;
             this.picBoxContact.TabStop = false;
             // 
-            // tmrRefreshContact
-            // 
-            this.tmrRefreshContact.Tick += new System.EventHandler(this.refreshContact_Tick);
-            // 
-            // ContactBasic
+            // ContactCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -82,9 +76,9 @@
             this.Controls.Add(this.lblContactName);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.picBoxContact);
-            this.Name = "ContactBasic";
+            this.Name = "ContactCard";
             this.Size = new System.Drawing.Size(338, 68);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ContactBasic_MouseDown);
+            this.Click += new System.EventHandler(this.ContactBasic_Click);
             ((System.ComponentModel.ISupportInitialize)(this.picBoxContact)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -95,6 +89,5 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.PictureBox picBoxContact;
         private System.Windows.Forms.Label lblContactName;
-        private System.Windows.Forms.Timer tmrRefreshContact;
     }
 }

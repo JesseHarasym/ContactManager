@@ -20,10 +20,12 @@ namespace AddressBookProject.Components.Helper_Components
 
         private void EditGroup_Load(object sender, EventArgs e)
         {
+            //panel used for adding checkboxes to show the user the currently selected contacts in the group
             FlowLayoutPanel pnl = new FlowLayoutPanel();
             pnl.Dock = DockStyle.Fill;
             pnl.AutoScroll = true;
 
+            //add check boxes for user to choose contacts to be added to group
             foreach (var c in abc.ContactCards)
             {
                 var check = new CheckBox() { Text = c.ContactName, Name = c.ContactID };
@@ -33,6 +35,7 @@ namespace AddressBookProject.Components.Helper_Components
             }
             pnlAddGroup.Controls.Add(pnl);
 
+            //search group and make the checkboxes checked if the contact is already a part of the group being edited
             foreach (var g in abg.GroupList)
             {
                 foreach (var c in g.ContactCards)
@@ -50,6 +53,7 @@ namespace AddressBookProject.Components.Helper_Components
                 }
             }
 
+            //show the groups current name (was too wonky to be added with the previous foreach)
             foreach (var g in abg.GroupCards)
             {
                 if (g.GroupID == abg.CurrentGroupShowing)
@@ -59,6 +63,7 @@ namespace AddressBookProject.Components.Helper_Components
             }
         }
 
+        //add contacts to list to be accessed when the user has clicked the edit button
         private void btnEdit_Click(object sender, EventArgs e)
         {
             foreach (var checkBox in CheckBoxes)

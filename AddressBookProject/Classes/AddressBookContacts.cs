@@ -6,15 +6,18 @@ using System.Windows.Forms;
 
 namespace AddressBookProject
 {
-    //Singleton class
+    //This is a singleton class that handles the data related to contacts in the AddressBook application.
     public sealed class AddressBookContacts
     {
         private AddressBookContacts()
         {
+            //Load data currently stored in database
             db.GetContactData();
-            DatabaseList = db.ContactList;
-            DatabaseLoaded = true;
+            DatabaseList = db.ContactList;  //use database list as temporary list to load the data up
+            DatabaseLoaded = true;  //set to true so that AllContacts class is aware that it must create cards for this data
         }
+
+        //creation of single instance of class for our contact singleton
         private static readonly object padlock = new object();
         private static AddressBookContacts instance = null;
         public static AddressBookContacts Instance
@@ -37,14 +40,15 @@ namespace AddressBookProject
         public List<Contacts> DatabaseList = new List<Contacts>();
         public List<Contacts> ContactList = new List<Contacts>();
         public List<ContactBasic> ContactCards = new List<ContactBasic>();
-        public string CurrentContactShowing { get; set; }
-        public string DeletedContactID { get; set; }
-        public bool DatabaseLoaded { get; set; }
+        public string CurrentContactShowing { get; set; }   //to track the currently clicked contact
+        public string DeletedContactID { get; set; }    //to track the last contact that has been deleted
+        public bool DatabaseLoaded { get; set; }    //to track when the database is loaded and needs ContactCards created
 
-        public ContactBasic AddContact(PictureBox profilePic, string firstName, string lastName, string phoneNumber, string address, string email, int contactID, int cardStartPos, int cardPos, bool picAdded)
+        public Contacts AddContact(PictureBox profilePic, string firstName, string lastName, string phoneNumber, string address, string email, int contactID, bool picAdded)
         {
             contactID++;
-            ContactList.Add(new Contacts()
+
+            var contact = new Contacts()
             {
                 ProfilePic = profilePic,
                 ContactID = contactID,
@@ -54,30 +58,26 @@ namespace AddressBookProject
                 Address = address,
                 Email = email,
                 PictureAdded = picAdded
-            });
+            };
 
+            ContactList.Add(contact);
+
+            //only write to database if this isn't the database being loaded
             if (DatabaseLoaded == false)
             {
                 db.AddContactData(profilePic, contactID, firstName, lastName, phoneNumber, address, email, picAdded);
             }
 
-            ContactBasic contact = AddContactCard(profilePic, cardStartPos, cardPos, contactID, picAdded);
             return contact;
         }
 
-        public ContactBasic AddContactCard(PictureBox profilePic, int cardStartPos, int cardPos, int contactID, bool picAdded)
+        //create contact cards to display on the pnlAllContacts
+        public ContactBasic AddContactCard(int cardStartPos, int cardPos)
         {
-            int left = 1;
-
             ContactBasic contact = new ContactBasic();
 
-            contact.Left = left;
+            contact.Left = 1;
             contact.Top = cardPos + cardStartPos;
-            contact.Name = "contact" + contactID;
-
-            var matcher = new CardMatcher();
-            string fullName = matcher.MatchContactID(contactID);
-            contact.SetContactInfo(contactID.ToString(), fullName, profilePic, picAdded);
 
             ContactCards.Add(contact);
 
@@ -91,6 +91,7 @@ namespace AddressBookProject
             ContactList.RemoveAll(c => c.ContactID == id);
             DatabaseList.RemoveAll(c => c.ContactID == id);
 
+            //remove from every group that has this contact in it
             for (int i = 0; i < abg.GroupList.Count; i++)
             {
                 abg.GroupList[i].ContactCards.RemoveAll(c => c.ContactID == Convert.ToString(id));
@@ -100,18 +101,21 @@ namespace AddressBookProject
 
             if (anyContacts)
             {
-                CurrentContactShowing = Convert.ToString(ContactList.First().ContactID);
+                CurrentContactShowing = Convert.ToString(ContactList.First().ContactID);    //make first contact remaining in list the current contact shown
             }
 
             db.DeleteContactData(id);
-            abg.GroupChanged = true;
+
+            abg.GroupChanged = true;    //indicates that the groups need to be reloaded
 
             return anyContacts;
         }
 
-        public void EditContact(string firstName, string lastName, string phoneNumber, string address, string email, PictureBox profilePic, bool picAdded)
+        public void EditContact(string firstName, string lastName, string phoneNumber, string address, string email, PictureBox profilePic, bool picAdded, string contactID)
         {
-            int i = ContactList.FindIndex(c => c.ContactID.ToString() == CurrentContactShowing);
+            //find the contacts index and edit each input with the new input (or old input if it hasn't been changed)
+            int i = ContactList.FindIndex(c => c.ContactID == Convert.ToInt32(contactID));
+
             ContactList[i].FirstName = firstName;
             ContactList[i].LastName = lastName;
             ContactList[i].PhoneNumber = phoneNumber;
@@ -120,21 +124,25 @@ namespace AddressBookProject
             ContactList[i].ProfilePic = profilePic;
             ContactList[i].PictureAdded = picAdded;
 
-            db.EditContactData(ContactList[i].ContactID, firstName, lastName, phoneNumber, address, email, profilePic, picAdded);
-            EditContactCard(profilePic, picAdded);
+            //edit the database data as well
+            db.EditContactData(Convert.ToInt32(contactID), firstName, lastName, phoneNumber, address, email, profilePic, picAdded);
+            EditContactCard(profilePic, picAdded, contactID);
         }
 
-        public void EditContactCard(PictureBox profilePic, bool picAdded)
+        public void EditContactCard(PictureBox profilePic, bool picAdded, string contacID)
         {
-            int iCL = ContactList.FindIndex(c => c.ContactID.ToString() == CurrentContactShowing);
-            int iCC = ContactCards.FindIndex(c => c.ContactID == CurrentContactShowing);
-            ContactCards[iCC].ContactName = ContactList[iCL].FirstName + ' ' + ContactList[iCL].LastName;
+            //find ContactCard and ContactList indices of the edited ID and edit them with the new data
+            int iCL = ContactList.FindIndex(c => c.ContactID.ToString() == contacID);
+            int iCC = ContactCards.FindIndex(c => c.ContactID == contacID);
+            ContactCards[iCC].ContactName = ContactList[iCL].FullName;
             ContactCards[iCC].ProfilePic.Image = profilePic.Image;
             ContactCards[iCC].PictureAdded = picAdded;
         }
 
         public IEnumerable<ContactBasic> SearchContact(string searchCriteria, List<ContactBasic> contactsVisible)
         {
+            //this is just the base of our contact search function, the remaining is done in AllContacts class 
+            //because everything else is related directly to the cards shown in the gui
             var searched =
                 from c in contactsVisible
                 where c.ContactName.ToLower().Contains(searchCriteria.ToLower())

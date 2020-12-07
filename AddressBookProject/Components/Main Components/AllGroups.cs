@@ -23,6 +23,7 @@ namespace AddressBookProject
             tmrCheckForGroups.Start();
         }
 
+        //gets results of AddGroup class dialog
         private void btnAddGroups_Click(object sender, System.EventArgs e)
         {
             AddGroup ag = new AddGroup();
@@ -39,6 +40,8 @@ namespace AddressBookProject
             ag.Dispose();
         }
 
+        //add groups as indicated in the AddGroup dialog, and send to our groups singleton for creation
+        //this is all very similar to adding contacts, but some data is handled directly in the groups singleton
         public void DisplayGroupCard(string groupName, List<ContactBasic> contactCards)
         {
             BasicGroup group;
@@ -64,28 +67,30 @@ namespace AddressBookProject
                 if (!String.IsNullOrWhiteSpace(txtSearchGroup.Text))
                 {
                     SearchedCardPos = CardStartPos;
-                    searched = abg.SearchGroup(txtSearchGroup.Text);
+                    searched = abg.SearchGroup(txtSearchGroup.Text);    //send to our singleton class to search the criteria entered by user
 
                     searchedGroupCard = searched.ToList();
 
                     foreach (var g in abg.GroupCards)
                     {
-                        pnlGroups.Controls.Remove(g);
+                        pnlGroups.Controls.Remove(g);   //remove every GroupCard currently visible to user
                     }
 
                     foreach (var g in searchedGroupCard.Distinct())
                     {
+                        //make first group in our search list the currently visible group (All Contacts)
                         if (g == searchedGroupCard.First())
                         {
                             abg.CurrentGroupShowing = g.GroupID;
                             abg.GroupChanged = true;
                         }
+                        //add searched group to panel and increment positioning
                         g.Top = SearchedCardPos;
                         pnlGroups.Controls.Add(g);
                         SearchedCardPos += CardHeight;
                     }
                 }
-                else
+                else   //if search is implenty then show all cards in the singletons list
                 {
                     CardPos = CardStartPos;
                     foreach (var g in abg.GroupCards)
@@ -107,6 +112,8 @@ namespace AddressBookProject
 
         public void WhichGroupClicked()
         {
+            //show which group is clicked by checking groups singletons variable and change colors
+            //as needed to indicate to user the group has been clicked
             foreach (var g in abg.GroupCards)
             {
                 if (g.GroupID == abg.CurrentGroupShowing)
@@ -121,6 +128,7 @@ namespace AddressBookProject
                 }
             }
 
+            //display the ContactCards that correspond with that group
             foreach (var c in abc.ContactCards)
             {
                 foreach (var g in abg.GroupList)
@@ -138,6 +146,7 @@ namespace AddressBookProject
 
         }
 
+        //this checks for user deleted data and removes the GroupCard as needed
         public void CheckForDeletedData()
         {
             bool deletedSuccessful = false;
@@ -171,6 +180,7 @@ namespace AddressBookProject
             SearchedCardPos -= deletedCount;
         }
 
+        //gets result of the EditGroup dialog
         private void btnEditGroups_Click(object sender, System.EventArgs e)
         {
             EditGroup eg = new EditGroup();
@@ -187,6 +197,7 @@ namespace AddressBookProject
             eg.Dispose();
         }
 
+        //check for database load variable set to true in groups singleton constructor, and load groups and their contact cards
         public void CheckForDatabaseLoad()
         {
             if (abg.DatabaseLoaded)
@@ -206,6 +217,9 @@ namespace AddressBookProject
             abg.DatabaseLoaded = false;
         }
 
+        //since we hadn't learned data binding when I created the bulk of this application, I used timers to
+        //check if a variety of actions have occured, and this is what this is for.
+        //the names of the functions should identify what the timer is trying to do
         private void checkForGroups_Tick(object sender, System.EventArgs e)
         {
             if (abg.GroupsVisible)

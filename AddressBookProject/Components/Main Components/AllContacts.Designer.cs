@@ -29,16 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.timerCheckForDelete = new System.Windows.Forms.Timer(this.components);
+            this.timerCheckForChanges = new System.Windows.Forms.Timer(this.components);
             this.btnAdd = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnGroups = new System.Windows.Forms.Button();
+            this.pnlAllContacts = new System.Windows.Forms.Panel();
+            this.pnlFullContact = new System.Windows.Forms.Panel();
+            this.fullContactInfo1 = new AddressBookProject.FullContactInfo();
+            this.pnlAllContacts.SuspendLayout();
+            this.pnlFullContact.SuspendLayout();
             this.SuspendLayout();
             // 
-            // timerCheckForDelete
+            // timerCheckForChanges
             // 
-            this.timerCheckForDelete.Interval = 1;
-            this.timerCheckForDelete.Tick += new System.EventHandler(this.timerCheckForDelete_Tick);
+            this.timerCheckForChanges.Interval = 1;
+            this.timerCheckForChanges.Tick += new System.EventHandler(this.timerCheckForChanges_Tick);
             // 
             // btnAdd
             // 
@@ -48,7 +53,7 @@
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdd.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAdd.Location = new System.Drawing.Point(0, 0);
+            this.btnAdd.Location = new System.Drawing.Point(2, 3);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(36, 32);
             this.btnAdd.TabIndex = 13;
@@ -59,7 +64,7 @@
             // txtSearch
             // 
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(0, 32);
+            this.txtSearch.Location = new System.Drawing.Point(2, 35);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(338, 23);
             this.txtSearch.TabIndex = 12;
@@ -73,7 +78,7 @@
             this.btnGroups.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGroups.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGroups.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnGroups.Location = new System.Drawing.Point(234, 0);
+            this.btnGroups.Location = new System.Drawing.Point(236, 3);
             this.btnGroups.Name = "btnGroups";
             this.btnGroups.Size = new System.Drawing.Size(104, 32);
             this.btnGroups.TabIndex = 14;
@@ -81,27 +86,67 @@
             this.btnGroups.UseVisualStyleBackColor = false;
             this.btnGroups.Click += new System.EventHandler(this.btnGroups_Click);
             // 
+            // pnlAllContacts
+            // 
+            this.pnlAllContacts.AutoScroll = true;
+            this.pnlAllContacts.Controls.Add(this.btnGroups);
+            this.pnlAllContacts.Controls.Add(this.txtSearch);
+            this.pnlAllContacts.Controls.Add(this.btnAdd);
+            this.pnlAllContacts.Location = new System.Drawing.Point(371, 0);
+            this.pnlAllContacts.Name = "pnlAllContacts";
+            this.pnlAllContacts.Size = new System.Drawing.Size(358, 392);
+            this.pnlAllContacts.TabIndex = 15;
+            // 
+            // pnlFullContact
+            // 
+            this.pnlFullContact.Controls.Add(this.fullContactInfo1);
+            this.pnlFullContact.Location = new System.Drawing.Point(0, 0);
+            this.pnlFullContact.Name = "pnlFullContact";
+            this.pnlFullContact.Size = new System.Drawing.Size(370, 391);
+            this.pnlFullContact.TabIndex = 16;
+            // 
+            // fullContactInfo1
+            // 
+            this.fullContactInfo1.Address = "Address:";
+            this.fullContactInfo1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.fullContactInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fullContactInfo1.ContactID = "ID";
+            this.fullContactInfo1.Email = "Email: ";
+            this.fullContactInfo1.FirstName = null;
+            this.fullContactInfo1.FullName = "Full Name";
+            this.fullContactInfo1.LastName = null;
+            this.fullContactInfo1.Location = new System.Drawing.Point(0, 1);
+            this.fullContactInfo1.Name = "fullContactInfo1";
+            this.fullContactInfo1.PhoneNumber = "Phone Number: ";
+            this.fullContactInfo1.PicAdded = false;
+            this.fullContactInfo1.Size = new System.Drawing.Size(370, 391);
+            this.fullContactInfo1.TabIndex = 0;
+            // 
             // AllContacts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.txtSearch);
-            this.Controls.Add(this.btnGroups);
+            this.Controls.Add(this.pnlAllContacts);
+            this.Controls.Add(this.pnlFullContact);
             this.Name = "AllContacts";
-            this.Size = new System.Drawing.Size(357, 416);
+            this.Size = new System.Drawing.Size(742, 395);
             this.Load += new System.EventHandler(this.AllContacts_Load);
+            this.pnlAllContacts.ResumeLayout(false);
+            this.pnlAllContacts.PerformLayout();
+            this.pnlFullContact.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Timer timerCheckForDelete;
+        private System.Windows.Forms.Timer timerCheckForChanges;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnGroups;
+        private System.Windows.Forms.Panel pnlAllContacts;
+        private System.Windows.Forms.Panel pnlFullContact;
+        private FullContactInfo fullContactInfo1;
     }
 }

@@ -4,20 +4,7 @@ namespace AddressBookProject
 {
     class CardMatcher
     {
-        public string MatchContactID(int id)
-        {
-
-            string fullName = "Default";
-
-            foreach (var c in AddressBookContacts.Instance.ContactList)
-            {
-                if (c.ContactID == id)
-                {
-                    fullName = c.FirstName + " " + c.LastName;
-                }
-            }
-            return fullName;
-        }
+        //just matches the id with it's group name when creating their card
         public string MatchGroupID(int id)
         {
             string groupName = "Default";

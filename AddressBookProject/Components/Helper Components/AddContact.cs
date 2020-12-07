@@ -20,6 +20,7 @@ namespace AddressBookProject
             InitializeComponent();
         }
 
+        //when creating, add the newly entered information to the properties to be accessed
         private void btnCreate_Click(object sender, EventArgs e)
         {
             FirstName = txtFirstName.Text;
@@ -29,6 +30,7 @@ namespace AddressBookProject
             Email = txtEmail.Text;
         }
 
+        //if picture is added successfully, add to property to be accessed later
         private void btnAddPicture_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
@@ -40,7 +42,7 @@ namespace AddressBookProject
                 {
                     ProfilePic.Image = new Bitmap(dialog.FileName);
                     picProfileCheck.Image = ProfilePic.Image;
-                    PictureAdded = true;
+                    PictureAdded = true;    //to keep track of which contacts have pictures associated with them
                 }
             }
         }
