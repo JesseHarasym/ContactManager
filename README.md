@@ -56,6 +56,7 @@ When viewing any group but All Contacts, deleting the contact and adding new con
 ## Currently know bugs
 
 Editing contact does not update another groups contact card
+
 Have to add connection strings manually when cloning repo
 
 ## Built With
