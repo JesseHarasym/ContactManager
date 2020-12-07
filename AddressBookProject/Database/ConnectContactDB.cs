@@ -14,7 +14,7 @@ namespace AddressBookProject.Classes
         public List<Contacts> ContactList = new List<Contacts>();
 
         string connectionString =
-            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\USERS\JGHAR\SOURCE\REPOS\ADDRESSBOOKPROJECT\ADDRESSBOOKPROJECT\DATABASE\ADDRESSBOOKDB.MDF;Integrated Security=True";
+            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\jghar\source\repos\ContactManager\AddressBookProject\Database\AddressBookDB.mdf;Integrated Security=True;Connect Timeout=30";
 
         public void GetContactData()
         {

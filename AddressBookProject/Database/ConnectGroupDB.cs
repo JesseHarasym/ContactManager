@@ -12,7 +12,7 @@ namespace AddressBookProject.Database
         public List<Groups> GroupList = new List<Groups>();
 
         string connectionString =
-            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\jghar\source\repos\AddressBookProject\AddressBookProject\Database\AddressBookDB.mdf;Integrated Security=True;Connect Timeout=30";
+            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\jghar\source\repos\ContactManager\AddressBookProject\Database\AddressBookDB.mdf;Integrated Security=True;Connect Timeout=30";
 
         public void GetGroupData()
         {
