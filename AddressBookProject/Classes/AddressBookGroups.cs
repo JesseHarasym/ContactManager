@@ -11,9 +11,6 @@ namespace AddressBookProject.Classes
     {
         private AddressBookGroups()
         {
-            //unlike the contacts singleton, we only indicate the database will need loaded in 
-            //constructor, and the rest is handled in the AllGroups class for database loading
-            DatabaseLoaded = true;
         }
         //creation of single instance of class for our groups singleton
         private static readonly object padlock = new object();

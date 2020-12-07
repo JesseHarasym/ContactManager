@@ -203,9 +203,6 @@ namespace AddressBookProject
             if (abg.DatabaseLoaded)
             {
                 DisplayGroupCard("All Contacts", abc.ContactCards);
-                abg.db.GetGroupData();
-                abg.db.GetGroupsContactData();
-                abg.DatabaseList = abg.db.GroupList;
                 foreach (var g in abg.DatabaseList)
                 {
                     GroupID = g.GroupID - 1;    //to ensure we are always using GroupID's that match with the database, minus 1 because we add to it in AddGroup function.

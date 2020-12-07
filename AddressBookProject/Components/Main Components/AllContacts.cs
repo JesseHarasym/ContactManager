@@ -106,8 +106,6 @@ namespace AddressBookProject
         {
             if (abc.DatabaseLoaded)
             {
-                abc.db.GetContactData();
-                abc.DatabaseList = abc.db.ContactList;  //use database list as temporary list to load the data up
                 foreach (var c in abc.DatabaseList)
                 {
                     ContactID = c.ContactID - 1;

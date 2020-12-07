@@ -11,8 +11,6 @@ namespace AddressBookProject
     {
         private AddressBookContacts()
         {
-            //Load data currently stored in database
-            DatabaseLoaded = true;  //set to true so that AllContacts class is aware that it must create cards for this data
         }
 
         //creation of single instance of class for our contact singleton
