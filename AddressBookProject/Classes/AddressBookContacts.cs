@@ -12,8 +12,6 @@ namespace AddressBookProject
         private AddressBookContacts()
         {
             //Load data currently stored in database
-            db.GetContactData();
-            DatabaseList = db.ContactList;  //use database list as temporary list to load the data up
             DatabaseLoaded = true;  //set to true so that AllContacts class is aware that it must create cards for this data
         }
 
@@ -35,8 +33,8 @@ namespace AddressBookProject
             }
         }
 
-        ConnectContactDB db = new ConnectContactDB();
-        AddressBookGroups abg = AddressBookGroups.Instance;
+        public ConnectContactDB db = new ConnectContactDB();
+        public AddressBookGroups abg = AddressBookGroups.Instance;
         public List<Contacts> DatabaseList = new List<Contacts>();
         public List<Contacts> ContactList = new List<Contacts>();
         public List<ContactBasic> ContactCards = new List<ContactBasic>();

@@ -106,13 +106,18 @@ namespace AddressBookProject
         {
             if (abc.DatabaseLoaded)
             {
+                abc.db.GetContactData();
+                abc.DatabaseList = abc.db.ContactList;  //use database list as temporary list to load the data up
                 foreach (var c in abc.DatabaseList)
                 {
                     ContactID = c.ContactID - 1;
                     DisplayContactCard(c.ProfilePic, c.FirstName, c.LastName, c.PhoneNumber, c.Address, c.Email, c.PictureAdded);
                 }
 
-                abc.CurrentContactShowing = abc.ContactList.First().ContactID.ToString();   //make first contact in ContactList the currently viewed contact 
+                if (abc.ContactList.Any())
+                {
+                    abc.CurrentContactShowing = abc.ContactList.First().ContactID.ToString();   //make first contact in ContactList the currently viewed contact 
+                }
             }
 
             abc.DatabaseLoaded = false; //stop load unless database is loaded again
