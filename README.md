@@ -53,6 +53,10 @@ If you click on another contact other then All Contacts, you will see an edit bu
 
 When viewing any group but All Contacts, deleting the contact and adding new contacts will be disabled. You can edit that groups associated contacts with edit, but to delete or add a new contact, you must be in the All Contact group.
 
+## Currently know bugs
+
+Editing contact does not update another groups contact card
+
 ## Built With
 
 - C#
