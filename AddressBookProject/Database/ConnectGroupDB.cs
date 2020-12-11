@@ -11,8 +11,7 @@ namespace AddressBookProject.Database
     {
         public List<Groups> GroupList = new List<Groups>();
 
-        string connectionString =
-            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\jghar\source\repos\ContactManager\AddressBookProject\Database\AddressBookDB.mdf;Integrated Security=True;Connect Timeout=30";
+        private string connectionString = ConnectionString.connectionString;
 
         public void GetGroupData()
         {
@@ -92,6 +91,7 @@ namespace AddressBookProject.Database
                     connection.Close();
                 }
             }
+
             AddGroupCardData(groupID, contactCards);
         }
 
@@ -155,6 +155,24 @@ namespace AddressBookProject.Database
                     new SqlCommand($"DELETE FROM GroupsContacts " +
                                    $"WHERE GroupID = {groupID}", connection))
                 {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+
+        public void EditGroupContactCard(string contactID, string fullName)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd =
+                    new SqlCommand($"UPDATE GroupsContacts " +
+                                   $"SET ContactName = @fn WHERE ContactID = {contactID}",
+                        connection))
+                {
+                    cmd.Parameters.AddWithValue("@fn", fullName);
+
                     connection.Open();
                     cmd.ExecuteNonQuery();
                     connection.Close();

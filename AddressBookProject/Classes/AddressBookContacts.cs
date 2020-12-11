@@ -130,9 +130,26 @@ namespace AddressBookProject
             //find ContactCard and ContactList indices of the edited ID and edit them with the new data
             int iCL = ContactList.FindIndex(c => c.ContactID.ToString() == contacID);
             int iCC = ContactCards.FindIndex(c => c.ContactID == contacID);
-            ContactCards[iCC].ContactName = ContactList[iCL].FullName;
+            string fullName = ContactList[iCL].FullName;
+            ContactCards[iCC].ContactName = fullName;
             ContactCards[iCC].ProfilePic.Image = profilePic.Image;
             ContactCards[iCC].PictureAdded = picAdded;
+
+            //edit each groups contact card with same contact id
+            foreach (var g in abg.GroupList)
+            {
+                foreach (var c in g.ContactCards)
+                {
+                    if (c.ContactID == contacID)
+                    {
+                        c.ContactName = ContactList[iCL].FullName;
+                        c.ProfilePic.Image = profilePic.Image;
+                        c.PictureAdded = picAdded;
+                        //edit groupcontacts db also
+                        abg.db.EditGroupContactCard(contacID, fullName);
+                    }
+                }
+            }
         }
 
         public IEnumerable<ContactBasic> SearchContact(string searchCriteria, List<ContactBasic> contactsVisible)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AddressBookProject.Database;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,8 +14,7 @@ namespace AddressBookProject.Classes
     {
         public List<Contacts> ContactList = new List<Contacts>();
 
-        string connectionString =
-            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\jghar\source\repos\ContactManager\AddressBookProject\Database\AddressBookDB.mdf;Integrated Security=True;Connect Timeout=30";
+        private string connectionString = ConnectionString.connectionString;
 
         public void GetContactData()
         {
