@@ -21,7 +21,7 @@ You will also need to load the database associated with this program. You can fi
 
 ### Change the connection string
 
-There are two connection strings to change, both classes are under the Database folder. One is a public property in the ConnectContactDB class and the other in the ConnectGroupDB class.
+There is a connection string class under the database folder. Open up the class named 'ConnectionString.cs' and change the connection string in there to get started.
 
 ### Running
 
