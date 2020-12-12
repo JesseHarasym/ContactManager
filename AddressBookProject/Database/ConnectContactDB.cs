@@ -141,7 +141,8 @@ namespace AddressBookProject.Classes
             byte[] photoArr;
             if (profilePic.Image == null)
             {
-                profilePic.Image = new Bitmap("C:\\Users\\jghar\\source\\repos\\AddressBookProject\\AddressBookProject\\Resources\\defaultProfile.png");
+                //if no image given, give default profile image
+                profilePic.Image = Image.FromFile(Path.Combine(Environment.CurrentDirectory, @"..\..\Resources\", "defaultProfile.png"));
             }
 
             MemoryStream ms = new MemoryStream();

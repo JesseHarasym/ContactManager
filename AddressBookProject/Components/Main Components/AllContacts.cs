@@ -13,7 +13,6 @@ namespace AddressBookProject
         AddressBookGroups abg = AddressBookGroups.Instance;
         private List<ContactBasic> ContactsVisible = new List<ContactBasic>();
         private List<FullContactInfo> FullContact = new List<FullContactInfo>();
-        private int ContactID;
         private int CardStartPos = 56;
         private int CardHeight = 68;
         private int CardPos;
@@ -46,7 +45,7 @@ namespace AddressBookProject
         //creates contacts, sends data to AddressBookContacts to add to our singleton, and then returns whats needed to create our ContactCards
         public void DisplayContactCard(PictureBox profilePic, string firstName, string lastName, string phoneNumber, string address, string email, bool picAdded)
         {
-            Contacts contact = abc.AddContact(profilePic, firstName, lastName, phoneNumber, address, email, ContactID, picAdded);
+            Contacts contact = abc.AddContact(profilePic, firstName, lastName, phoneNumber, address, email, picAdded);
 
             ContactBasic contactCard = abc.AddContactCard(CardStartPos, CardPos);
 
@@ -59,8 +58,6 @@ namespace AddressBookProject
             contactCard.DataBindings.Add("ContactID", contact, "ContactID", true,
                 DataSourceUpdateMode.OnPropertyChanged);
             #endregion  //where contact card is binded to contact list
-
-            ContactID = Convert.ToInt32(contactCard.ContactID); //current id is last id added to ContactList in AddressBookContacts singleton
 
             pnlAllContacts.Controls.Add(contactCard);   //add to panel to view card
             ContactsVisible.Add(contactCard);   //add to list to track current visible contacts (to aid with searching and the logistics of groups)
@@ -94,8 +91,6 @@ namespace AddressBookProject
             pnlFullContact.Controls.Add(fullContact);
             FullContact.Add(fullContact);
 
-            abc.CurrentContactShowing = ContactID.ToString();
-
             abg.GroupChanged = true;
 
             CardPos += CardHeight;  //variable to keep track of current card position
@@ -108,7 +103,8 @@ namespace AddressBookProject
             {
                 foreach (var c in abc.DatabaseList)
                 {
-                    ContactID = c.ContactID - 1;
+                    abc.ContactID = c.ContactID - 1;
+                    Console.WriteLine(c.ContactID + " " + c.FirstName + " " + c.LastName);
                     DisplayContactCard(c.ProfilePic, c.FirstName, c.LastName, c.PhoneNumber, c.Address, c.Email, c.PictureAdded);
                 }
 
@@ -260,7 +256,8 @@ namespace AddressBookProject
 
                     if (!ContactsVisible.Any())
                     {
-                        fullContactInfo1.Visible = true;
+                        pnlFullContact.Controls.Clear();
+                        pnlFullContact.Controls.Add(fullContactInfo1);
                     }
 
                     deletedSuccessful = true;
@@ -273,6 +270,7 @@ namespace AddressBookProject
                     c.Top -= CardHeight;
                 }
             }
+
             abc.ContactCards.RemoveAll(c => c.ContactID == abc.DeletedContactID);
             abc.DeletedContactID = "0";
 
@@ -309,10 +307,18 @@ namespace AddressBookProject
                 {
                     c.BackColor = Color.DarkBlue;
                     c.ForeColor = Color.AliceBlue;
-                    var clickedContact = FullContact.First(con => con.ContactID == c.ContactID);
-                    pnlFullContact.Controls.Clear();
-                    pnlFullContact.Controls.Add(clickedContact);
-                    CurrentContact = clickedContact.ContactID;
+                    try
+                    {
+                        var clickedContact = FullContact.First(con => con.ContactID == c.ContactID);
+                        pnlFullContact.Controls.Clear();
+                        pnlFullContact.Controls.Add(clickedContact);
+                        CurrentContact = clickedContact.ContactID;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Problem loading contact" + e);
+                    }
+
                 }
                 else if (c.ContactID != abc.CurrentContactShowing)
                 {
@@ -340,11 +346,6 @@ namespace AddressBookProject
             {
                 btnAdd.Visible = false;
             }
-        }
-
-        private void AllContacts_Load(object sender, EventArgs e)
-        {
-            //AutoScroll = true;
         }
     }
 }

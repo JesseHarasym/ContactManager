@@ -132,7 +132,6 @@
             this.Controls.Add(this.pnlFullContact);
             this.Name = "AllContacts";
             this.Size = new System.Drawing.Size(742, 395);
-            this.Load += new System.EventHandler(this.AllContacts_Load);
             this.pnlAllContacts.ResumeLayout(false);
             this.pnlAllContacts.PerformLayout();
             this.pnlFullContact.ResumeLayout(false);

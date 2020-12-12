@@ -162,6 +162,21 @@ namespace AddressBookProject.Database
             }
         }
 
+        public void DeleteContactCard(int contactID)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd =
+                    new SqlCommand($"DELETE FROM GroupsContacts " +
+                                   $"WHERE ContactID = {contactID}", connection))
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+
         public void EditGroupContactCard(string contactID, string fullName)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

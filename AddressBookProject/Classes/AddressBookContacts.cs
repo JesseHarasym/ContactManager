@@ -11,6 +11,10 @@ namespace AddressBookProject
     {
         private AddressBookContacts()
         {
+            //Load data currently stored in database
+            db.GetContactData();
+            DatabaseList = db.ContactList;  //use database list as temporary list to load the data up
+            DatabaseLoaded = true;
         }
 
         //creation of single instance of class for our contact singleton
@@ -36,18 +40,19 @@ namespace AddressBookProject
         public List<Contacts> DatabaseList = new List<Contacts>();
         public List<Contacts> ContactList = new List<Contacts>();
         public List<ContactBasic> ContactCards = new List<ContactBasic>();
+        public int ContactID { get; set; }
         public string CurrentContactShowing { get; set; }   //to track the currently clicked contact
         public string DeletedContactID { get; set; }    //to track the last contact that has been deleted
         public bool DatabaseLoaded { get; set; }    //to track when the database is loaded and needs ContactCards created
 
-        public Contacts AddContact(PictureBox profilePic, string firstName, string lastName, string phoneNumber, string address, string email, int contactID, bool picAdded)
+        public Contacts AddContact(PictureBox profilePic, string firstName, string lastName, string phoneNumber, string address, string email, bool picAdded)
         {
-            contactID++;
+            ContactID++;
 
             var contact = new Contacts()
             {
                 ProfilePic = profilePic,
-                ContactID = contactID,
+                ContactID = ContactID,
                 FirstName = firstName,
                 LastName = lastName,
                 PhoneNumber = phoneNumber,
@@ -61,7 +66,7 @@ namespace AddressBookProject
             //only write to database if this isn't the database being loaded
             if (DatabaseLoaded == false)
             {
-                db.AddContactData(profilePic, contactID, firstName, lastName, phoneNumber, address, email, picAdded);
+                db.AddContactData(profilePic, ContactID, firstName, lastName, phoneNumber, address, email, picAdded);
             }
 
             return contact;
@@ -82,23 +87,39 @@ namespace AddressBookProject
 
         public bool RemoveContact(int id)
         {
-            bool anyContacts = ContactList.Any();
-
             ContactList.RemoveAll(c => c.ContactID == id);
             DatabaseList.RemoveAll(c => c.ContactID == id);
+
 
             //remove from every group that has this contact in it
             for (int i = 0; i < abg.GroupList.Count; i++)
             {
                 abg.GroupList[i].ContactCards.RemoveAll(c => c.ContactID == Convert.ToString(id));
+
             }
 
             DeletedContactID = Convert.ToString(id);
+
+            bool anyContacts = ContactList.Any();
 
             if (anyContacts)
             {
                 CurrentContactShowing = Convert.ToString(ContactList.First().ContactID);    //make first contact remaining in list the current contact shown
             }
+
+            //delete from GroupContactCard table also
+            foreach (var g in abg.GroupList)
+            {
+                foreach (var c in g.ContactCards)
+                {
+                    if (c.ContactID == id.ToString())
+                    {
+                        abg.db.DeleteContactCard(id);
+
+                    }
+                }
+            }
+
 
             db.DeleteContactData(id);
 
@@ -145,7 +166,7 @@ namespace AddressBookProject
                         c.ContactName = ContactList[iCL].FullName;
                         c.ProfilePic.Image = profilePic.Image;
                         c.PictureAdded = picAdded;
-                        //edit groupcontacts db also
+                        //edit GroupContactCard db also
                         abg.db.EditGroupContactCard(contacID, fullName);
                     }
                 }

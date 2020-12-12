@@ -11,6 +11,7 @@ namespace AddressBookProject.Classes
     {
         private AddressBookGroups()
         {
+
         }
         //creation of single instance of class for our groups singleton
         private static readonly object padlock = new object();
@@ -112,7 +113,10 @@ namespace AddressBookProject.Classes
                 {
                     //make first contact in AllContacts the shown contact if the group is deleted
                     //**need to be made to handle if no contacts are available (every contact deleted)
-                    AddressBookContacts.Instance.CurrentContactShowing = GroupList[i].ContactCards.First().ContactID;
+                    if (GroupList[i].ContactCards.Any())
+                    {
+                        AddressBookContacts.Instance.CurrentContactShowing = GroupList[i].ContactCards.First().ContactID;
+                    }
                 }
             }
 

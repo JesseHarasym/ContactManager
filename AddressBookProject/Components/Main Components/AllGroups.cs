@@ -20,7 +20,17 @@ namespace AddressBookProject
         public AllGroups()
         {
             InitializeComponent();
+            AddDatabase();
             tmrCheckForGroups.Start();
+        }
+
+        public void AddDatabase()
+        {
+            abg.db.GetGroupData();
+            abg.db.GetGroupsContactData();
+            abg.DatabaseList = abg.db.GroupList;
+            abg.DatabaseLoaded = true;
+            CheckForDatabaseLoad();
         }
 
         //gets results of AddGroup class dialog
@@ -208,9 +218,9 @@ namespace AddressBookProject
                     GroupID = g.GroupID - 1;    //to ensure we are always using GroupID's that match with the database, minus 1 because we add to it in AddGroup function.
                     DisplayGroupCard(g.GroupName, g.ContactCards);
                 }
+
                 abg.CurrentGroupShowing = "1";
             }
-
             abg.DatabaseLoaded = false;
         }
 
