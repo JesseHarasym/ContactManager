@@ -101,11 +101,11 @@
     <Compile Include="Components\Main Components\AllGroups.Designer.cs">
       <DependentUpon>AllGroups.cs</DependentUpon>
     </Compile>
-    <Compile Include="Components\Helper Components\ContactBasic.cs">
+    <Compile Include="Components\Helper Components\BasicContact.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Components\Helper Components\ContactBasic.Designer.cs">
-      <DependentUpon>ContactBasic.cs</DependentUpon>
+    <Compile Include="Components\Helper Components\BasicContact.Designer.cs">
+      <DependentUpon>BasicContact.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\CardMatcher.cs" />
     <Compile Include="Classes\Contacts.cs" />
@@ -149,8 +149,8 @@
     <EmbeddedResource Include="Components\Main Components\AllGroups.resx">
       <DependentUpon>AllGroups.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Components\Helper Components\ContactBasic.resx">
-      <DependentUpon>ContactBasic.cs</DependentUpon>
+    <EmbeddedResource Include="Components\Helper Components\BasicContact.resx">
+      <DependentUpon>BasicContact.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Components\Helper Components\EditContact.resx">
       <DependentUpon>EditContact.cs</DependentUpon>

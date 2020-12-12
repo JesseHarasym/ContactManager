@@ -39,7 +39,7 @@
             // 
             this.pnlAddGroup.AutoScroll = true;
             this.pnlAddGroup.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnlAddGroup.Location = new System.Drawing.Point(40, 79);
+            this.pnlAddGroup.Location = new System.Drawing.Point(20, 79);
             this.pnlAddGroup.Name = "pnlAddGroup";
             this.pnlAddGroup.Size = new System.Drawing.Size(239, 189);
             this.pnlAddGroup.TabIndex = 54;

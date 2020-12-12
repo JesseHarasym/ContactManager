@@ -114,7 +114,7 @@ namespace AddressBookProject
                 {
                     if (c.ContactID == id.ToString())
                     {
-                        abg.db.DeleteContactCard(id);
+                        abg.db.DeleteContactCardData(id);
 
                     }
                 }
@@ -167,7 +167,7 @@ namespace AddressBookProject
                         c.ProfilePic.Image = profilePic.Image;
                         c.PictureAdded = picAdded;
                         //edit GroupContactCard db also
-                        abg.db.EditGroupContactCard(contacID, fullName);
+                        abg.db.EditGroupContactCardData(contacID, fullName);
                     }
                 }
             }

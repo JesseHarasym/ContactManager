@@ -29,9 +29,10 @@ namespace AddressBookProject.Components.Helper_Components
             foreach (var c in abc.ContactCards)
             {
                 var check = new CheckBox() { Text = c.ContactName, Name = c.ContactID };
-
+                check.AutoSize = true;
                 CheckBoxes.Add(check);
                 pnl.Controls.Add(check);
+
             }
             pnlAddGroup.Controls.Add(pnl);
 

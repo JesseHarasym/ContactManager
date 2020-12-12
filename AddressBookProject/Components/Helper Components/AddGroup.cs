@@ -26,6 +26,7 @@ namespace AddressBookProject.Components.Helper_Components
             {
                 //create a checkbox for each ContactCard
                 var check = new CheckBox() { Text = c.ContactName, Name = c.ContactID };
+                check.AutoSize = true;
                 CheckBoxes.Add(check);
                 pnl.Controls.Add(check);
             }

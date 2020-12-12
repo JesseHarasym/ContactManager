@@ -162,7 +162,7 @@ namespace AddressBookProject.Database
             }
         }
 
-        public void DeleteContactCard(int contactID)
+        public void DeleteContactCardData(int contactID)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -177,7 +177,7 @@ namespace AddressBookProject.Database
             }
         }
 
-        public void EditGroupContactCard(string contactID, string fullName)
+        public void EditGroupContactCardData(string contactID, string fullName)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

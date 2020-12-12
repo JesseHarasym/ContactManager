@@ -104,7 +104,6 @@ namespace AddressBookProject
                 foreach (var c in abc.DatabaseList)
                 {
                     abc.ContactID = c.ContactID - 1;
-                    Console.WriteLine(c.ContactID + " " + c.FirstName + " " + c.LastName);
                     DisplayContactCard(c.ProfilePic, c.FirstName, c.LastName, c.PhoneNumber, c.Address, c.Email, c.PictureAdded);
                 }
 
